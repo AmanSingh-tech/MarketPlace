@@ -4,7 +4,7 @@ import { registerSchema } from "@/Schema/registerSchema"
 import bcrypt from "bcryptjs";
 import { db } from "@/utils/db";
 import { getUserByEmail } from "@/utils/user";
-import FormValues from "@/utils/formValue";
+import {FormValues} from "@/utils/formValue";
 
 
 export const register = async (formData: FormValues) => {
@@ -23,7 +23,7 @@ export const register = async (formData: FormValues) => {
     }
 
     try {
-        const newUser = await db.user.create({
+        await db.user.create({
             data: {
                 name: name,
                 email: email,
@@ -36,6 +36,7 @@ export const register = async (formData: FormValues) => {
         return {success: "User created successfully"};
     }
     catch (error) {
+        console.error(error);
         return {error: "Error creating account"};
     }
 }   
