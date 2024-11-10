@@ -20,7 +20,7 @@ MarketPlace is a dynamic bidding platform designed for artists and art enthusias
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/marketplace.git
+   git clone https://github.com/awhvish/MarketPlace.git
    cd marketplace
    ```
 
