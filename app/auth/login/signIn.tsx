@@ -4,7 +4,7 @@ import { getProviders, signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function SignIn() {
-  const [providers, setProviders] = useState<Record<string, any> | null>(null);
+  const [providers, setProviders] = useState<Record<string, { id: string; name: string }> | null>(null);
   const [credentials, setCredentials] = useState({ username: '', password: '' });
 
   useEffect(() => {
