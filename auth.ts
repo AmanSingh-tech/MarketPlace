@@ -58,9 +58,25 @@ const handler = NextAuth({
         })
     ],
     session: {
-        strategy: "jwt"
+        strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 days (adjust as needed)
+        updateAge: 24 * 60 * 60, // Update token every day
     },
-    secret: process.env.AUTH_SECRET,
+    callbacks: {
+        async jwt({ token, user }) {
+          if (user) {
+            token.id = user.id;
+            token.email = user.email;
+          }
+          return token;
+        },
+        async session({ session, token }) {
+          session.user.id = token.id;
+          session.user.email = token.email;
+          return session;
+        },
+      },
+    secret: process.env.NAUTH_SECRET,
     debug: true,
 });
 
