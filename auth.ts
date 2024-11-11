@@ -1,60 +1,68 @@
+"user"
+
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/utils/db";
 
-// Default export for NextAuth API route
-export const { 
-    handlers: 
-        {GET, POST}, 
-    auth, 
-    signIn,
-    signOut,
-    } = NextAuth({
+const handler = NextAuth({
     pages: {
+        signIn: "/auth/login",
         error: "/auth/error",
-        signIn: "/auth/signin"
     },
     adapter: PrismaAdapter(db),
     providers: [
         CredentialsProvider({
             name: "credentials",
             credentials: {
-                username: { label: "Username", type: "text", placeholder: "awhvish" },
-                password: { label: "Password", type: "password" },
+                username: { label: "Username", type: "text" },
+                password: { label: "Password", type: "password" }
             },
-            authorize: async (credentials) => {  
-                if (!credentials) return null;
-
-                // Find the user in the database by username
-                const user = await db.user.findUnique({
-                    where: { username: credentials.username as string },
-                });
-
-                // If user exists and password is correct, return user
-                if (user && user.password && await bcrypt.compare(credentials.password as string, user.password)) {
-                    return {
-                        ...user,
-                        id: user.id.toString(), // Convert id to string
-                    };
+            async authorize(credentials) {
+                console.log("Authorize called with credentials:", credentials);
+                
+                if (!credentials?.username || !credentials?.password) {
+                    console.log("Missing credentials");
+                    return null;
                 }
-                // Return null if authentication fails
-                return null;
-            },
-        }),
+
+                try {
+                    const user = await db.user.findUnique({
+                        where: { username: credentials.username }
+                    });
+                    console.log("Found user:", user);
+
+                    if (!user || !user.password) {
+                        console.log("No user found or no password");
+                        return null;
+                    }
+
+                    const passwordMatch = await bcrypt.compare(
+                        credentials.password,
+                        user.password
+                    );
+                    console.log("Password match:", passwordMatch);
+
+                    if (!passwordMatch) {
+                        console.log("Password doesn't match");
+                        return null;
+                    }
+                    return user;
+
+                } catch (error) {
+                    console.error("Error in authorize:", error);
+                    return null;
+                }
+            }
+        })
     ],
-    callbacks:{
-        async signIn({user, account}) {
-            if (account?.provider == "credentials") return true;
-            //add 2fa stuff
-            console.log("User logged in")
-            return true;
-        }
-    },
     session: {
-        strategy: "jwt",
+        strategy: "jwt"
     },
     secret: process.env.AUTH_SECRET,
-    debug: process.env.NODE_ENV === "development",
+    debug: true,
 });
+
+export const { auth, signIn, signOut } = handler;
+export { handler as GET, handler as POST };

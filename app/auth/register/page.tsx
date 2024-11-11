@@ -29,24 +29,21 @@ const Page = () => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Form submission started"); // Add this
-    console.log("Form data:", formData); // Add this
+    console.log("Form submission started");
+    console.log("Form data:", formData); 
     setIsSubmitting(true);
     setErrors({});
 
     try {
-      console.log("Calling register function"); // Add this
       const response = await register(formData);
-      console.log("Register response:", response); // Add this
-
       if (response?.error) {
-        console.log("Error received:", response.error); // Add this
+        console.log("Error received:", response.error); 
         setErrors({ general: response.error });
       } else {
         console.log("Registration successful");
       }
     } catch (error) {
-      console.log("Caught error:", error); // Add this
+      console.log("Caught error:", error);
       setErrors({ general: "An unexpected error occurred. Please try again." });
       console.error("Registration error:", error);
     }
@@ -159,9 +156,9 @@ const Page = () => {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Login with{' '}
+          Already have an account? {' '}
           <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-            Google
+            Click here
           </a>
         </p>
       </div>
