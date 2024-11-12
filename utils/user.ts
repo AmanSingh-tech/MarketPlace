@@ -7,7 +7,7 @@ export async function getUserByEmail(email:string){
         }) 
         return user;
     }
-    catch(error){
+    catch{
         return null;
     }
 }
@@ -19,7 +19,19 @@ export async function getUserById(id:string){
         })
         return user;
     }
-    catch(error){
+    catch{
+        return null;
+    }
+}
+
+export async function getUserByUsername(username:string){
+    try {
+        const user = await db.user.findUnique({
+        where: {username}
+        })
+        return user;
+    }
+    catch{
         return null;
     }
 }
