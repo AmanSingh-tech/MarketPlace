@@ -11,7 +11,7 @@ export async function getUserByEmail(email:string){
         return null;
     }
 }
-
+//hello
 export async function getUserById(id:string){
     try {
         const user = await db.user.findUnique({
