@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 const Page = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -16,6 +17,7 @@ const Page = () => {
     <div>
         {session ? <div>{JSON.stringify(session)}</div> : <div>Loading...</div>}
         User profile section
+        <button onClick={() => signOut()}>Sign out</button>
     </div>
   )
 }
