@@ -35,7 +35,8 @@ export const login = async (formData: LoginFormValues) => {
         const result = await signIn('credentials', {
             username,
             password,
-        }
+            callbackUrl: `/user/profile/${username}`
+        },
         );
         
         console.log("SignIn result:", result);

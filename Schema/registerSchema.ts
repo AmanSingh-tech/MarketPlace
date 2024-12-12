@@ -13,5 +13,11 @@ export const registerSchema = z.object({
     }),
     password: z.string().min(6, {
         message:"Password should be atleast of 6 characters"
+    }),
+    phone: z.string().min(9, {
+        message:"Phone number should be of atleast 10 digits"
+    }),
+    country: z.string().min(1, {
+        message: "Location is required"
     })
 })
