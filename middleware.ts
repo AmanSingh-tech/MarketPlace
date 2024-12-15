@@ -1,6 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse, NextRequest } from "next/server";
-
+import { signOut } from "next-auth/react";
 export async function middleware(req: NextRequest) {
     const token = await getToken({ req, secret: process.env.NAUTH_SECRET });
 
@@ -14,9 +14,9 @@ export async function middleware(req: NextRequest) {
     }
     if (!token && req.nextUrl.pathname.startsWith('/user/profile/') && req.nextUrl.pathname.endsWith('/edit')) {
       return NextResponse.redirect(new URL(`/unauthorized`, req.url));
-  }
+    }
 
     return NextResponse.next();
 }
 
-export const config = { matcher: ["/auth/login", "/signout", "/user/profile/:path*/edit"] };
+export const config = { matcher: ["/auth/login", "/user/profile/:path*/edit"] };

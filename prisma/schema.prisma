@@ -25,17 +25,21 @@ model User {
   createdAt     DateTime @default(now())
   country       String   @default("India")
   phone         String?
+
+  @@unique([id, username])
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  title       String
-  description String
-  image       String
-  price       String
-  bidEndDate  String
-  published   Boolean  @default(false)
-  author      User     @relation(fields: [authorId], references: [id])
-  authorId    String
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  title          String
+  description    String
+  image          String
+  price          String
+  bidEndDate     String
+  published      Boolean  @default(false)
+  author         User     @relation(fields: [authorId, authorUserName], references: [id, username])
+  authorId       String
+  authorUserName String @default("John")
+  bidHistory     Json     @default("{}")
 }

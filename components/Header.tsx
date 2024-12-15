@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { getSession, Session } from 'next-auth/react';
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
-
+import { PackageSearchIcon } from 'lucide-react';
 export default function Header() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
@@ -41,6 +41,10 @@ export default function Header() {
       router.push('/auth/login');
     }
   }
+  const handleArt = () => {
+      router.push(`/products`);
+ 
+  }
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
@@ -68,6 +72,12 @@ export default function Header() {
           >
             <PlusSquare size={24} />
           </button>
+          <button onClick={handleArt}>
+          <PackageSearchIcon
+            className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125"
+            size={24}
+          />
+          </button>
           <button onClick={handleLike}>
           <Heart
             className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125 hover:text-red-500"
@@ -80,6 +90,7 @@ export default function Header() {
             size={24}
           />
           </button>
+
           </nav>
 
       </div>

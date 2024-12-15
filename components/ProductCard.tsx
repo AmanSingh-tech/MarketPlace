@@ -1,40 +1,59 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
+import { VerifiedIcon } from 'lucide-react'
+import { Product } from '@/utils/formValue'
 
-interface PostCardProps {
-  title: string
-  description: string
-  image: string
-  price: string
-  bidEndDate: string
+export default function ProductCard({ product }: { product: Product }) {
+    const [showDetails, setShowDetails] = useState(false)
+
+    return (
+        <div
+            className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
+            onMouseEnter={() => setShowDetails(true)}
+            onMouseLeave={() => setShowDetails(false)}
+        >
+            <div className="relative h-48">
+                <Image
+                    src={product.image}
+                    alt={product.title}
+                    layout="fill"
+                    objectFit="cover"
+                />
+                <div className="absolute top-0 right-0 bg-black text-white px-2 py-1 text-sm">
+                    <VerifiedIcon />
+                </div>
+            </div>
+            <div className="p-6">
+                <h2 className="text-xl font-semibold mb-2">{product.title}</h2>
+                {showDetails && (
+                    <>
+                        <p className="text-gray-600 mb-4">{product.description}</p>
+                        <Link href={`/user/profile/`} className="text-blue-500 hover:underline block mb-4">
+                            By {product.authorUserName}
+                        </Link>
+                    </>
+                )}
+                <div className="flex justify-between items-center mb-4">
+                    <span className="text-lg font-bold">Current Bid: ${product.price}</span>
+                    <span className="text-sm text-gray-500">Ends: {new Date(product.bidEndDate).toLocaleDateString()}</span>
+                </div>
+                {new Date(product.bidEndDate) > new Date() ?
+                    <button className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors duration-300">
+                        Increase Bid Now
+                    </button> :
+                    <button className="w-full bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors duration-300">
+                        Bids closed
+                    </button>
+                }
+            </div>
+            {showDetails && (
+                <div className="bg-gray-100 p-4">
+                    <h3 className="text-lg font-semibold mb-2">Bid History</h3>
+                    {/*TODO: <BidHistory bids={product.bids} />*/}
+                </div>
+            )}
+        </div>
+    )
 }
 
-export default function PostCard({ title, description, image, price, bidEndDate }: PostCardProps) {
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-      {/* Image Section */}
-      <div className="relative aspect-square">
-        <Image src={image} alt={title} layout="fill" objectFit="cover" />
-      </div>
-
-      {/* Content Section */}
-      <div className="p-4">
-        {/* Title */}
-        <h2 className="text-lg font-semibold mb-2">{title}</h2>
-
-        {/* Description */}
-        <p className="text-gray-600 mb-2">{description}</p>
-
-        {/* Price */}
-        <p className="text-gray-600 mb-2 font-bold">Price: ${price}</p>
-
-        {/* Bid End Date */}
-        <p className="text-gray-500 mb-4 text-sm">Bid Ends: {new Date(bidEndDate).toLocaleDateString()}</p>
-
-        {/* Actions */}
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 w-full">
-          Place Bid
-        </button>
-      </div>
-    </div>
-  )
-}

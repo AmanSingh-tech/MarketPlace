@@ -19,3 +19,17 @@ export interface AddPostValues {
     bidEndDate: string,
     filePath: string,
 }
+
+export interface Product {
+    id: number;
+    title: string;
+    image: string;
+    createdAt: Date;
+    description: string;
+    price: string;
+    bidEndDate: string;
+    published: boolean;
+    authorId: string;
+    authorUserName: string;
+    bidHistory: JSON;
+}
