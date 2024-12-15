@@ -11,7 +11,7 @@ export async function getUserByEmail(email:string){
         return null;
     }
 }
-//hello
+
 export async function getUserById(id:string){
     try {
         const user = await db.user.findUnique({
@@ -35,3 +35,12 @@ export async function getUserByUsername(username:string){
         return null;
     }
 }
+
+export async function getUserWithPosts(username: string) {
+    const user = await db.user.findUnique({
+      where: {  username: username },
+      include: { posts: true }, // Include user's posts
+    });
+    return user;
+  }
+  

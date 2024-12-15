@@ -13,6 +13,7 @@ const RegisterPage = () => {
     email: '',
     password: '',
     username: '',
+    phone: '',
     country: ''
   })
 

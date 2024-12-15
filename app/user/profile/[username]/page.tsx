@@ -1,12 +1,13 @@
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
-import { getUserByUsername } from '@/utils/user';
+import { getUserByUsername, getUserWithPosts } from '@/utils/user';
 import { SignoutButton } from '@/components/SignoutButton';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import { PlusSquare, Lock, User, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
+import ArtSection from '@/components/ArtSection';
 
 // Define interface for user data
 interface UserProfileProps {
@@ -16,6 +17,7 @@ interface UserProfileProps {
 }
 
 export default async function UserProfilePage({ params }: UserProfileProps) {
+
   // Get the current session server-side
   let session;
   try {
@@ -34,11 +36,14 @@ export default async function UserProfilePage({ params }: UserProfileProps) {
     const profileUser = await getUserByUsername(params.username);
 
     // Check if the logged-in user is viewing their own profile
-    const isOwnProfile = profileUser && session?.user?.email === profileUser.email;
+    const isOwnProfile = profileUser && session?.user?.email === profileUser.email ? true : false;
 
     if (!profileUser) {
       redirect('/unauthorized');
     }
+
+    // For art section import posts
+    const user = await getUserWithPosts(params.username);
 
     return (
       <div className="min-h-screen bg-white">
@@ -67,8 +72,8 @@ export default async function UserProfilePage({ params }: UserProfileProps) {
                 <p className="text-gray-600">@{profileUser.username}</p>
               </div>
             </div>
-            
-            {/*TODO: Add bio in db and update here */ }
+
+            {/*TODO: Add bio in db and update here */}
             {profileUser.bio && (
               <div className="mb-8">
                 <h3 className="text-lg font-semibold mb-4">Bio</h3>
@@ -76,19 +81,11 @@ export default async function UserProfilePage({ params }: UserProfileProps) {
               </div>
             )}
 
-            {isOwnProfile && (
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold mb-4">Your Arts: </h3>
-                {/*TODO: add Art section - if art found then display else: say You have no arts */}
-                <Link
-                  href={`${profileUser.username}/addpost`}
-                  className="w-full bg-black text-white font-semibold py-2 px-4 rounded hover:bg-gray-800 transition duration-300 text-center block"
-                >
-                  <PlusSquare className='inline mx-2'></PlusSquare>
-                  Upload Your Art
-                </Link>
-              </div>
-            )}
+
+            {/*art */}
+            <ArtSection posts={user.posts} isOwnProfile={isOwnProfile} profileUser={profileUser}></ArtSection>
+
+
 
             <div className="mb-8">
               <h3 className="text-lg font-semibold mb-4">Personal Information</h3>

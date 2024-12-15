@@ -11,3 +11,11 @@ export interface LoginFormValues {
     username: string,
     password: string
 }
+
+export interface AddPostValues {
+    title: string,
+    price: string,
+    description: string,
+    bidEndDate: string,
+    filePath: string,
+}

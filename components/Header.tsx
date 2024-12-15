@@ -16,7 +16,7 @@ export default function Header() {
     });
   }, []);
 
-  console.log(session);
+  const isProductPage = window.location.pathname === '/products';
 
   const handleAdd = () => {
     if (session?.user) {
@@ -46,14 +46,15 @@ export default function Header() {
     <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <h1 className="text-xl font-bold">MarketPlace</h1>
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search products..."
-            className="bg-gray-100 rounded-md py-1 px-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-        </div>
+        {isProductPage && 
+                <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="bg-gray-100 rounded-md py-1 px-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              </div>}
         <nav className="flex items-center space-x-4">
           <Link href='/'>
             <Home

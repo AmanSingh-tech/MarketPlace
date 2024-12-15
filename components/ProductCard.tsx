@@ -1,43 +1,40 @@
 import Image from 'next/image'
-import { Heart, MessageCircle, Share2 } from 'lucide-react'
 
-interface ProductCardProps {
-  image: string
+interface PostCardProps {
   title: string
-  price: number
-  likes: number
-  comments: number
+  description: string
+  image: string
+  price: string
+  bidEndDate: string
 }
 
-export default function ProductCard({ image, title, price, likes, comments }: ProductCardProps) {
+export default function PostCard({ title, description, image, price, bidEndDate }: PostCardProps) {
   return (
     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+      {/* Image Section */}
       <div className="relative aspect-square">
         <Image src={image} alt={title} layout="fill" objectFit="cover" />
       </div>
+
+      {/* Content Section */}
       <div className="p-4">
+        {/* Title */}
         <h2 className="text-lg font-semibold mb-2">{title}</h2>
-        <p className="text-gray-600 mb-4">${price}</p>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button className="flex items-center text-gray-600 hover:text-red-500">
-              <Heart size={20} />
-              <span className="ml-1">{likes}</span>
-            </button>
-            <button className="flex items-center text-gray-600 hover:text-blue-500">
-              <MessageCircle size={20} />
-              <span className="ml-1">{comments}</span>
-            </button>
-            <button className="text-gray-600 hover:text-green-500">
-              <Share2 size={20} />
-            </button>
-          </div>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300">
-            Buy Now
-          </button>
-        </div>
+
+        {/* Description */}
+        <p className="text-gray-600 mb-2">{description}</p>
+
+        {/* Price */}
+        <p className="text-gray-600 mb-2 font-bold">Price: ${price}</p>
+
+        {/* Bid End Date */}
+        <p className="text-gray-500 mb-4 text-sm">Bid Ends: {new Date(bidEndDate).toLocaleDateString()}</p>
+
+        {/* Actions */}
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 w-full">
+          Place Bid
+        </button>
       </div>
     </div>
   )
 }
-
