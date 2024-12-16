@@ -22,21 +22,6 @@ const GavelIcon = () => (
 
 export default function MarketplacePage() {
 
-  const router = useRouter();
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    router.push('/auth/login')
-  }
-
-  const handleRegister = (e: React.FormEvent) => {
-    e.preventDefault()
-    router.push('/auth/register')
-  }
-  const handleBidding = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push('/products');
-  }
-
   const [session, setSession] = useState<Session | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
 
@@ -52,6 +37,26 @@ export default function MarketplacePage() {
       }
     });
   }, []);
+
+
+  const router = useRouter();
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if(isLoggedIn) {
+      router.push(`/user/profile/${session.user.username}`)
+    }
+    else router.push('/auth/login')
+  }
+
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault()
+    router.push('/auth/register')
+  }
+  const handleBidding = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push('/products');
+  }
+
 
   return (
     <>

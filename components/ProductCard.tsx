@@ -29,7 +29,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 {showDetails && (
                     <>
                         <p className="text-gray-600 mb-4">{product.description}</p>
-                        <Link href={`/user/profile/`} className="text-blue-500 hover:underline block mb-4">
+                        <Link href={`/user/profile/${product.authorUserName}`} className="text-blue-500 hover:underline block mb-4">
                             By {product.authorUserName}
                         </Link>
                     </>
