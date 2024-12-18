@@ -1,12 +1,11 @@
-// utils/productService.ts
-import { db } from '@/utils/db'
+import { db } from "./db";
 
 export async function getProducts() {
     const currentDate = new Date().toISOString()
     const ongoingProducts = await db.post.findMany({
         where: {
             bidEndDate: {
-                gte: currentDate, // Active bids (not expired)
+                gte: currentDate, 
             },
         },
     })
@@ -14,10 +13,24 @@ export async function getProducts() {
     const previousProducts = await db.post.findMany({
         where: {
             bidEndDate: {
-                lt: currentDate, // Expired bids
+                lt: currentDate, 
             },
         },
     })
 
     return { ongoingProducts, previousProducts }
+}
+
+
+export async function getProductFromId(id: number) {
+    try {
+        const product = await db.post.findUnique({
+            where: { id },
+        });
+
+        return product;
+    } catch (error) {
+        console.error('Error fetching product by ID:', error); 
+        return null; 
+    }
 }

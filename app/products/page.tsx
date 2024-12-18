@@ -1,7 +1,7 @@
 import ProductGrid from '@/components/ProductGrid'
 import Header from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { getProducts } from '@/utils/productService'
+import { getProducts } from '@/utils/product'
 
 export default async function Home() {
   // Fetch posts from database

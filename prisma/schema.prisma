@@ -41,5 +41,5 @@ model Post {
   author         User     @relation(fields: [authorId, authorUserName], references: [id, username])
   authorId       String
   authorUserName String @default("John")
-  bidHistory     Json     @default("{}")
+  bidHistory     Json[]    @default([])
 }

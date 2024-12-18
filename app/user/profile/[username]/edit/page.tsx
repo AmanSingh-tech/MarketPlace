@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Header from '@/components/Header'
 import {  Camera } from 'lucide-react'
 import { getSession } from 'next-auth/react'
@@ -9,7 +9,7 @@ import { edit } from '@/actions/edit'
 
 export default function EditProfilePage() {
     const router = useRouter()
-    const [error, setError] = useState<String> ('');
+    const [error, setError] = useState<string> ('');
 
     const [formData, setFormData] = useState({
         name: '',

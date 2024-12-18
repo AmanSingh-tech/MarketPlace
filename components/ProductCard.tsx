@@ -4,7 +4,16 @@ import { useState } from 'react'
 import { VerifiedIcon } from 'lucide-react'
 import { Product } from '@/utils/formValue'
 
-export default function ProductCard({ product }: { product: Product }) {
+
+interface ProductCardProps {
+
+    product: Product;
+
+    handleIncrease: () => void;
+
+}
+
+export default function ProductCard({ product, handleIncrease }: ProductCardProps) {
     const [showDetails, setShowDetails] = useState(false)
 
     return (
@@ -39,7 +48,7 @@ export default function ProductCard({ product }: { product: Product }) {
                     <span className="text-sm text-gray-500">Ends: {new Date(product.bidEndDate).toLocaleDateString()}</span>
                 </div>
                 {new Date(product.bidEndDate) > new Date() ?
-                    <button className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors duration-300">
+                    <button onClick={handleIncrease} className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors duration-300">
                         Increase Bid Now
                     </button> :
                     <button className="w-full bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors duration-300">
