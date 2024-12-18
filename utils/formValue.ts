@@ -1,3 +1,5 @@
+import { JsonValue } from "@prisma/client/runtime/library";
+
 export interface FormValues {
     name: string;
     email: string;
@@ -31,5 +33,5 @@ export interface Product {
     published: boolean;
     authorId: string;
     authorUserName: string;
-    bidHistory: JSON;
+    bidHistory: JsonValue;
 }

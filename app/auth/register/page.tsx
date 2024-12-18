@@ -60,6 +60,7 @@ const RegisterPage = () => {
 
   const handleGoogleSignUp = () => {
     console.log('Google Sign-Up attempted')
+    alert("Not yet functional")
     // Add your Google authentication logic here
   }
 

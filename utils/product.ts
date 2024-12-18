@@ -1,6 +1,8 @@
 import { db } from "./db";
 
-export async function getProducts() {
+  
+
+export const getProducts = async () => {
     const currentDate = new Date().toISOString()
     const ongoingProducts = await db.post.findMany({
         where: {

@@ -5,11 +5,11 @@ import { getUserByUsername, getUserWithPosts } from '@/utils/user';
 import { SignoutButton } from '@/components/SignoutButton';
 import Image from 'next/image';
 import Header from '@/components/Header';
-import { PlusSquare, Lock, User, Mail, Phone, MapPin } from 'lucide-react';
+import {  Lock, User, Mail, Phone, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import ArtSection from '@/components/ArtSection';
+import { Footer } from '@/components/Footer';
 
-// Define interface for user data
 interface UserProfileProps {
   params: {
     username: string;
@@ -17,41 +17,34 @@ interface UserProfileProps {
 }
 
 export default async function UserProfilePage({ params }: UserProfileProps) {
-
-  // Get the current session server-side
-  let session;
   try {
-    session = await getServerSession(authOptions);
-  } catch (error) {
-    console.error('Error fetching session:', error);
-  }
+    // Fetch server-side session
+    const session = await getServerSession(authOptions);
 
-  // Redirect to login if no session
-  if (!session) {
-    redirect('/');
-  }
-
-  try {
-    // Fetch the profile user's data
-    const profileUser = await getUserByUsername(params.username);
-
-    // Check if the logged-in user is viewing their own profile
-    const isOwnProfile = profileUser && session?.user?.email === profileUser.email ? true : false;
-
-    if (!profileUser) {
-      redirect('/unauthorized');
+    if (!session) {
+      redirect('/auth/login'); // Redirect to login if not authenticated
     }
 
-    // For art section import posts
+    // Fetch profile data
+    const profileUser = await getUserByUsername(params.username);
+
+    if (!profileUser) {
+      redirect('/404'); // Redirect if user profile not found
+    }
+
+    // Fetch user posts
     const user = await getUserWithPosts(params.username);
+
+    const isOwnProfile = session?.user?.email === profileUser.email;
 
     return (
       <div className="min-h-screen bg-white">
         <Header />
-        <main className="container mx-auto px-4 py-8">
+        <main className="container mx-auto px-4 py-8 mb-10">
           <div className="max-w-2xl mx-auto">
             <h1 className="text-3xl font-bold mb-8 text-center">User Profile</h1>
 
+            {/* Profile Header */}
             <div className="mb-8 flex items-center space-x-4">
               <div className="relative w-24 h-24 rounded-full overflow-hidden">
                 {profileUser.image ? (
@@ -73,20 +66,10 @@ export default async function UserProfilePage({ params }: UserProfileProps) {
               </div>
             </div>
 
-            {/*TODO: Add bio in db and update here */}
-            {profileUser.bio && (
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold mb-4">Bio</h3>
-                <p className="text-gray-700">{profileUser.bio}</p>
-              </div>
-            )}
+            {/* Art Section */}
+            {user && <ArtSection posts={user.posts} isOwnProfile={isOwnProfile} profileUser={profileUser} />}
 
-
-            {/*art */}
-            <ArtSection posts={user.posts} isOwnProfile={isOwnProfile} profileUser={profileUser}></ArtSection>
-
-
-
+            {/* Personal Info Section */}
             <div className="mb-8">
               <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
               <div className="space-y-4">
@@ -109,6 +92,7 @@ export default async function UserProfilePage({ params }: UserProfileProps) {
               </div>
             </div>
 
+            {/* Account Security */}
             {isOwnProfile && (
               <div className="mb-8">
                 <h3 className="text-lg font-semibold mb-4">Account Security</h3>
@@ -117,15 +101,14 @@ export default async function UserProfilePage({ params }: UserProfileProps) {
                     <Lock className="w-5 h-5" />
                     <span>Two-Factor Authentication (2FA)</span>
                   </div>
-                  <button
-                    className={`px-4 py-2 rounded-md bg-black text-white`}
-                  >
+                  <button className="px-4 py-2 rounded-md bg-black text-white">
                     Manage 2FA
                   </button>
                 </div>
               </div>
             )}
 
+            {/* Account Settings */}
             {isOwnProfile && (
               <div>
                 <h3 className="text-lg font-semibold mb-4">Account Settings</h3>
@@ -135,32 +118,29 @@ export default async function UserProfilePage({ params }: UserProfileProps) {
                 >
                   Edit Profile
                 </Link>
-                <SignoutButton></SignoutButton>
+                <SignoutButton />
               </div>
-
             )}
-
           </div>
         </main>
+        <Footer />
       </div>
     );
   } catch (error) {
     console.error('Error fetching user profile:', error);
-    redirect('/');
+    redirect('/500'); // Redirect to a server error page
   }
 }
 
-// Implement dynamic metadata
 export async function generateMetadata({ params }: UserProfileProps) {
-  const username = params.username;
-
   try {
-    const user = await getUserByUsername(username);
+    const user = await getUserByUsername(params.username);
+
     return {
-      title: `${user.name}'s Profile`,
-      description: `Profile page for ${user.name}`,
+      title: user ? `${user.name}'s Profile` : 'Profile Not Found',
+      description: user ? `Profile page for ${user.name}` : 'User profile could not be found',
     };
-  } catch (error) {
+  } catch {
     return {
       title: 'Profile Not Found',
       description: 'User profile could not be found',

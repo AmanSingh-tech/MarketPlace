@@ -14,7 +14,7 @@ export const register = async (formData: FormValues) => {
         return {error: "Invalid fields"};
     }
 
-    const {name, email, username,  password} = formData;
+    const {name, email, username,  password, country, phone } = formData;
 
     const existingUser = await getUserByEmail(email);
 
@@ -28,6 +28,8 @@ export const register = async (formData: FormValues) => {
                 name: name,
                 email: email,
                 username: username,
+                phone: phone,
+                country: country,
                 password: await bcrypt.hash(password, 10),
                 createdAt: new Date(),
             }

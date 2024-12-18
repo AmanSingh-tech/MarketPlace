@@ -1,6 +1,6 @@
 'use client'
 
-import { inceaseBid, increaseBid } from "@/actions/increaseBid";
+import {  increaseBid } from "@/actions/increaseBid";
 import { DollarSign, ChevronUp } from "lucide-react"
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";

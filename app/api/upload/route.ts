@@ -1,18 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import multer from 'multer';
-import path from 'path';
 import fs from 'fs/promises';
-import { getServerSession } from 'next-auth';
-
-
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: './public/uploads',
-    filename: (req, file, cb) => {
-      cb(null, `${Date.now()}${path.extname(file.originalname)}`);
-    },
-  }),
-});
+import path from 'path';
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -23,19 +11,21 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
 
+    // Create a unique file path
+    const fileName = `${Date.now()}-${file.name}`;
+    const filePath = path.join(process.cwd(), 'public/uploads', fileName);
+
+    // Convert file to a buffer and save it
     const buffer = Buffer.from(await file.arrayBuffer());
-    const filePath = `./public/uploads/${Date.now()}-${file.name}`;
     await fs.writeFile(filePath, buffer);
 
-    return NextResponse.json({ filePath: filePath.replace('./public', '') });
+    return NextResponse.json({ filePath: `/uploads/${fileName}` });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json({ error: 'File upload failed' }, { status: 500 });
   }
 };
 
-export const config = {
-  api: {
-    bodyParser: false, // Required to handle multipart/form-data
-  },
-};
+// Set route configuration
+export const runtime = 'nodejs'; // Set runtime to Node.js
+export const dynamic = 'force-dynamic'; // Ensure this route always uses dynamic rendering

@@ -11,7 +11,7 @@ export default function UnauthorizedPage() {
           <AlertTriangle className="w-16 h-16 text-red-500 mx-auto mb-6" />
           <h1 className="text-3xl font-bold mb-4">Unauthorized Access</h1>
           <p className="text-gray-600 mb-8">
-            Sorry, you don't have permission to access this page. The requested page is either restricted or doesn't exist.
+            Sorry, you don&apos;t have permission to access this page. The requested page is either restricted or doesn&apos;t exist.
           </p>
           <Link 
             href="/" 

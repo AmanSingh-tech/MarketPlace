@@ -1,11 +1,13 @@
 "use client";
 
-import { Search, Home, PlusSquare, Heart, User, Menu } from 'lucide-react';
+import { Search, Home, PlusSquare, User, Menu } from 'lucide-react';
 import Link from 'next/link';
-import { getSession, Session } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { PackageSearchIcon } from 'lucide-react';
+import { Session } from 'next-auth';
+
 
 export default function Header() {
   const router = useRouter();
@@ -14,10 +16,12 @@ export default function Header() {
   const [isProductPage, setIsProductPage] = useState(false);
 
   useEffect(() => {
-    getSession().then(sessionData => {
-      setSession(sessionData);
-    });
-  }, []);
+    async function fetchSession() {
+      const fetchedSession = await getSession();
+      if (fetchedSession) setSession(fetchedSession);
+    }
+    fetchSession();
+  }, [])
 
 
   useEffect(() => {
@@ -30,15 +34,6 @@ export default function Header() {
     if (session?.user) {
       const username = session.user.username; 
       router.push(`/user/profile/${username}/addpost`);
-    } else {
-      router.push("/auth/login"); 
-    }
-  };
-
-  const handleLike = () => {
-    if (session?.user) {
-      const username = session.user.username; 
-      router.push(`/user/liked/${username}/`);
     } else {
       router.push("/auth/login"); 
     }
@@ -113,12 +108,13 @@ export default function Header() {
               size={24}
             />
           </button>
+          {/* TODO: ADD LIKE SECTION FOR USERS
           <button onClick={handleLike}>
             <Heart
               className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125 hover:text-red-500"
               size={24}
             />
-          </button>
+          </button>*/}
           <button onClick={handleProf}>
             <User
               className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125"

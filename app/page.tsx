@@ -5,6 +5,7 @@ import { Footer } from '@/components/Footer'
 import { useRouter } from 'next/navigation'
 import Header from '@/components/Header'
 import { getSession } from 'next-auth/react'
+import { Session } from 'next-auth'
 
 // SVG Icons
 const ArtIcon = () => (
@@ -23,7 +24,7 @@ const GavelIcon = () => (
 export default function MarketplacePage() {
 
   const [session, setSession] = useState<Session | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     // Fetch the session data
@@ -43,7 +44,9 @@ export default function MarketplacePage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     if(isLoggedIn) {
-      router.push(`/user/profile/${session.user.username}`)
+      if (session && session.user && session.user.username) {
+        router.push(`/user/profile/${(session && session.user) ? session.user.username : ""}`);
+      }
     }
     else router.push('/auth/login')
   }
@@ -60,10 +63,11 @@ export default function MarketplacePage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-gray-50">
         {/* Navigation */}
-        {isLoggedIn ? <Header /> :
-
+        {isLoggedIn ? (
+          <Header />
+        ) : (
           <nav className="bg-white shadow-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
               <div className="flex items-center">
@@ -86,7 +90,7 @@ export default function MarketplacePage() {
               </div>
             </div>
           </nav>
-        }
+        )}
 
         {/* Hero Section */}
         <header className="bg-white">
@@ -106,10 +110,10 @@ export default function MarketplacePage() {
               </button>
             </div>
           </div>
-
         </header>
 
-        <section className="bg-gray-50 py-16">
+        {/* Content Section */}
+        <section className="bg-gray-50 py-16 flex-1">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-gray-200 p-8 rounded-lg flex items-center justify-between space-x-8">
               <div className="flex-1">
@@ -118,7 +122,7 @@ export default function MarketplacePage() {
                 </h2>
                 <p className="text-lg text-gray-600 mb-6">
                   Stay on top of the bidding action by viewing both ongoing and completed bids.
-                  Whether you're looking to place a bid or review past auctions, we have all the information you need.
+                  Whether you&apos;re looking to place a bid or review past auctions, we have all the information you need.
                 </p>
               </div>
               <div className="flex space-x-4">
@@ -127,17 +131,16 @@ export default function MarketplacePage() {
                   className="px-6 py-3 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition"
                 >
                   View Current Bids
-
                 </button>
               </div>
             </div>
           </div>
         </section>
 
-
-
+        {/* Footer */}
+        <Footer />
       </div>
-      <Footer />
     </>
-  )
+  );
+
 }

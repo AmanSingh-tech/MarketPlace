@@ -15,7 +15,13 @@ export const addpost = async (form: AddPostValues) => {
         }
     }
 
-    const user = await getUserByEmail(session.user?.email);
+    const email = session.user?.email;
+    if (!email) {
+        return {
+            error: "No email found in session"
+        }
+    }
+    const user = await getUserByEmail(email);
     if (!user) {
         return {
             error: "Error fetching user"

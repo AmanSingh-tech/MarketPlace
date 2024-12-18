@@ -1,4 +1,8 @@
-export default function BidMenu({ onCategoryChange }) {
+interface BidMenuProps {
+  onCategoryChange: (category: string) => void;
+}
+
+export default function BidMenu({ onCategoryChange }: BidMenuProps) {
     const categories = ['ongoing', 'previous']
   
     return (

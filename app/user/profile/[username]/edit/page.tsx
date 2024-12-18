@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import {  Camera } from 'lucide-react'
 import { getSession } from 'next-auth/react'
 import { edit } from '@/actions/edit'
+import { Footer } from '@/components/Footer'
 
 export default function EditProfilePage() {
     const router = useRouter()
@@ -184,6 +185,7 @@ export default function EditProfilePage() {
                     </form>
                 </div>
             </main>
+            <Footer></Footer>
         </div>
     )
 }

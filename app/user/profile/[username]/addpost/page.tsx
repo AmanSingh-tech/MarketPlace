@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation'
 import { getSession } from 'next-auth/react'
 import Header from '@/components/Header'
 import { addpost } from '@/actions/addpost'
+import { Footer } from '@/components/Footer'
+import { Session } from 'next-auth'
 
 export default function AddPostPage() {
   const router = useRouter()
@@ -20,7 +22,7 @@ export default function AddPostPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [uploading, setUploading] = useState<boolean>(false)
-  const [session, setSession] = useState<any>(null)
+  const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -258,6 +260,7 @@ export default function AddPostPage() {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </>
   )
 }
