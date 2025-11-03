@@ -1,3 +1,7 @@
-import { handler as authHandler } from '@/auth'
-export const GET = authHandler
-export const POST = authHandler
+import { auth } from '@/auth';
+
+export const GET = auth;
+export const POST = auth;
+export const PUT = auth;
+export const PATCH = auth;
+export const DELETE = auth;
