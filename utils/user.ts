@@ -61,7 +61,7 @@ export async function getUserByUsername(username:string){
             const allUsers = await db.user.findMany({
                 select: { username: true }
             });
-            console.log('Available usernames:', allUsers.map(u => u.username));
+            console.log('Available usernames:', allUsers.map((u: { username: string }) => u.username));
             return null;
         }
         
