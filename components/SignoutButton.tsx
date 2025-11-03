@@ -8,7 +8,7 @@ export const SignoutButton = () => {
     }
     return (
         <button onClick={handleSignout}
-        className="w-full bg-red-600 text-white font-semibold py-2 mt-5 px-4 rounded hover:bg-gray-800 transition duration-300 text-center block"
+        className="w-full bg-gradient-to-r from-indigo-800 from-25% to-purple-600 hover:from-pink-500 hover:to-orange-500 text-white font-semibold py-2 mt-5 px-4 rounded-md transition text-center block"
       >
         Sign Out
       </button>

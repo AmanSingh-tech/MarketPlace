@@ -1,5 +1,7 @@
 import { JsonValue } from "@prisma/client/runtime/library";
 
+type Role = 'USER' | 'ARTIST';
+
 export interface FormValues {
     name: string;
     email: string;
@@ -7,6 +9,7 @@ export interface FormValues {
     password: string,
     phone: string,
     country: string;
+    role: Role;
 }
 
 export interface LoginFormValues {

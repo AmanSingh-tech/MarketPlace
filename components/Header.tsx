@@ -1,8 +1,8 @@
 "use client";
 
-import { Search, Home, PlusSquare, User, Menu } from 'lucide-react';
+import { Search, Home, PlusSquare, User, Menu, LogOut } from 'lucide-react';
 import Link from 'next/link';
-import { getSession } from 'next-auth/react';
+import { getSession, signOut } from 'next-auth/react';
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { PackageSearchIcon } from 'lucide-react';
@@ -52,75 +52,99 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+    <header className="fixed w-full top-0 z-50 bg-gradient-to-b from-black via-black/95 to-black/80 backdrop-blur-xl border-b border-white/5">
+      <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <h1 className="text-xl font-bold">MarketPlace</h1>
-
-        {/* Hamburger Menu for Mobile */}
+          <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 flex items-center justify-center ring-2 ring-white/10 shadow-lg">
+            <span className="text-xl font-serif text-white font-medium">M</span>
+          </div>
+          <h1 className="text-2xl font-serif tracking-wider text-white">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-rose-400 animate-textShimmer">
+              Market
+            </span>
+            <span className="text-white/90">place</span>
+          </h1>
+        </div>        {/* Hamburger Menu for Mobile */}
         <button
-          className="lg:hidden text-gray-800"
+          className="lg:hidden text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <Menu size={24} />
         </button>
 
         {/* Navigation Menu */}
-        <nav
-          className={`fixed lg:static top-0 left-0 w-full lg:w-auto h-full lg:h-auto bg-white lg:bg-transparent flex flex-col lg:flex-row items-center justify-center lg:justify-end space-y-6 lg:space-y-0 lg:space-x-4 transition-transform transform ${
-            menuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-          } lg:transform-none z-50 lg:z-auto`}
-        >
-          {/* Close Menu Button for Mobile */}
-          <button
-            className="lg:hidden absolute top-4 right-4 text-gray-800"
-            onClick={() => setMenuOpen(false)}
+          <nav
+            className={`fixed lg:static top-0 left-0 w-full lg:w-auto h-full lg:h-auto bg-black/95 lg:bg-transparent backdrop-blur-lg lg:backdrop-blur-none flex flex-col lg:flex-row items-center justify-center lg:justify-end space-y-6 lg:space-y-0 lg:space-x-8 transition-all duration-300 transform ${
+              menuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+            } lg:transform-none z-50 lg:z-auto`}
           >
-            &times;
-          </button>
+            {/* Close Menu Button for Mobile */}
+            <button
+              className="lg:hidden absolute top-6 right-6 text-white/80 hover:text-white p-2 rounded-full hover:bg-white/10 transition-colors"
+              onClick={() => setMenuOpen(false)}
+            >
+              <Menu size={24} />
+            </button>
 
           {isProductPage && (
-            <div className="relative w-full px-4 lg:px-0">
+            <div className="relative w-full max-w-md px-4 lg:px-0 group">
               <input
                 type="text"
-                placeholder="Search products..."
-                className="w-full bg-gray-100 rounded-md py-1 px-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Search artwork..."
+                className="w-full bg-white/5 border border-white/10 rounded-full py-2.5 px-5 pr-12 text-sm text-white/90 placeholder:text-white/40 
+                focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500/50 
+                transition-all duration-300 group-hover:bg-white/8"
               />
-              <Search className="absolute right-7 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+              <Search 
+                className="absolute right-8 top-1/2 transform -translate-y-1/2 text-white/40 
+                group-hover:text-white/60 transition-colors duration-300" 
+                size={18} 
+              />
             </div>
           )}
 
-          <Link href='/'>
-            <Home
-              className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125"
-              size={24}
-            />
-          </Link>
-          <button
-            onClick={handleAdd}
-            className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125"
-          >
-            <PlusSquare size={24} />
-          </button>
-          <button onClick={handleArt}>
-            <PackageSearchIcon
-              className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125"
-              size={24}
-            />
-          </button>
-          {/* TODO: ADD LIKE SECTION FOR USERS
-          <button onClick={handleLike}>
-            <Heart
-              className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125 hover:text-red-500"
-              size={24}
-            />
-          </button>*/}
-          <button onClick={handleProf}>
-            <User
-              className="text-gray-800 cursor-pointer transition-transform duration-200 hover:scale-125"
-              size={24}
-            />
-          </button>
+          <div className="flex items-center space-x-8">
+            <Link href='/' className="group">
+              <Home
+                className="text-white/70 group-hover:text-white cursor-pointer transition-all duration-300 group-hover:scale-110"
+                size={24}
+              />
+            </Link>
+            <button
+              onClick={handleAdd}
+              className="group"
+            >
+              <PlusSquare 
+                className="text-white/70 group-hover:text-white cursor-pointer transition-all duration-300 group-hover:scale-110"
+                size={24} 
+              />
+            </button>
+            <button onClick={handleArt} className="group">
+              <PackageSearchIcon
+                className="text-white/70 group-hover:text-white cursor-pointer transition-all duration-300 group-hover:scale-110"
+                size={24}
+              />
+            </button>
+            <button onClick={handleProf} className="group">
+              <User
+                className="text-white/70 group-hover:text-white cursor-pointer transition-all duration-300 group-hover:scale-110"
+                size={24}
+              />
+            </button>
+            {session?.user && (
+              <button 
+                onClick={() => signOut({ callbackUrl: '/' })} 
+                className="group"
+                title="Logout"
+              >
+                <LogOut
+                  className="text-white/70 group-hover:text-white cursor-pointer transition-all duration-300 group-hover:scale-110"
+                  size={24}
+                />
+              </button>
+            )}
+          </div>
         </nav>
       </div>
     </header>

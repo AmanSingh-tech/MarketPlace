@@ -33,6 +33,7 @@ export const edit = async (formData: FormValues) => {
                 username: formData.username,
                 phone: formData.phone,
                 country: formData.country,
+                role: formData.role,
             },
         });
         if (!updateUser) {

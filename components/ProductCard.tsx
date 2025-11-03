@@ -18,7 +18,7 @@ export default function ProductCard({ product, handleIncrease }: ProductCardProp
 
     return (
         <div
-            className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg shadow-xl overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl"
             onMouseEnter={() => setShowDetails(true)}
             onMouseLeave={() => setShowDetails(false)}
         >
@@ -26,39 +26,39 @@ export default function ProductCard({ product, handleIncrease }: ProductCardProp
                 <Image
                     src={product.image}
                     alt={product.title}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    className="object-cover"
                 />
-                <div className="absolute top-0 right-0 bg-black text-white px-2 py-1 text-sm">
+                <div className="absolute top-0 right-0 bg-white/10 backdrop-blur-sm text-white px-2 py-1 text-sm">
                     <VerifiedIcon />
                 </div>
             </div>
             <div className="p-6">
-                <h2 className="text-xl font-semibold mb-2">{product.title}</h2>
+                <h2 className="text-xl font-semibold mb-2 text-white">{product.title}</h2>
                 {showDetails && (
                     <>
-                        <p className="text-gray-600 mb-4">{product.description}</p>
-                        <Link href={`/user/profile/${product.authorUserName}`} className="text-blue-500 hover:underline block mb-4">
+                        <p className="text-gray-400 mb-4">{product.description}</p>
+                        <Link href={`/user/profile/${product.authorUserName}`} className="text-white hover:text-[#6D28D9] block mb-4 transition-colors duration-200">
                             By {product.authorUserName}
                         </Link>
                     </>
                 )}
                 <div className="flex justify-between items-center mb-4">
-                    <span className="text-lg font-bold">Current Bid: ${product.price}</span>
-                    <span className="text-sm text-gray-500">Ends: {new Date(product.bidEndDate).toLocaleDateString()}</span>
+                    <span className="text-lg font-bold text-white">Current Bid: ${product.price}</span>
+                    <span className="text-sm text-gray-400">Ends: {new Date(product.bidEndDate).toLocaleDateString()}</span>
                 </div>
                 {new Date(product.bidEndDate) > new Date() ?
-                    <button onClick={handleIncrease} className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors duration-300">
+                    <button onClick={handleIncrease} className="w-full bg-[#6D28D9] text-white py-2 px-4 rounded hover:bg-[#5b21b6] transition-colors duration-200">
                         Increase Bid Now
                     </button> :
-                    <button className="w-full bg-gray-900 text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors duration-300">
+                    <button className="w-full bg-gray-900 text-white py-2 px-4 rounded hover:bg-black transition-colors duration-200">
                         Bids closed
                     </button>
                 }
             </div>
             {showDetails && (
-                <div className="bg-gray-100 p-4">
-                    <h3 className="text-lg font-semibold mb-2">Bid History</h3>
+                <div className="bg-white/5 backdrop-blur-sm border-t border-white/10 p-4">
+                    <h3 className="text-lg font-semibold mb-2 text-white">Bid History</h3>
                     {/*TODO: <BidHistory bids={product.bids} />*/}
                 </div>
             )}

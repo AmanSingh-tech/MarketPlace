@@ -36,7 +36,10 @@ export const authOptions: AuthOptions = {
                     if (!passwordMatch) {
                         return null;
                     }
-                    return user;
+                    return {
+                        ...user,
+                        role: user.role as 'USER' | 'ARTIST'
+                    };
                 } catch (error) {
                     console.error("Error in authorize:", error);
                     return null;
@@ -52,7 +55,7 @@ export const authOptions: AuthOptions = {
     callbacks: {
 
         async jwt({ token, user }) {
-            if (user) {
+                if (user) {
                 token.id = user.id;
                 token.email = user.email;
                 const myUser = user.email
@@ -62,6 +65,7 @@ export const authOptions: AuthOptions = {
                 token.phone = myUser?.phone;
                 token.image = myUser?.image;
                 token.country = myUser?.country;
+                token.role = myUser?.role as 'USER' | 'ARTIST';
             }
             return token;
         },
@@ -69,19 +73,20 @@ export const authOptions: AuthOptions = {
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.email = token.email as string;
-                session.user.username = token.username as string;
-                session.user.image = token.image as string | null | undefined;
-                session.user.phone = token.phone as string | null | undefined;
-                session.user.country = token.country as string | null | undefined;
+                session.user.username = (token.username as string) || undefined;
+                session.user.image = (token.image as string) || null;
+                session.user.phone = (token.phone as string) || null;
+                session.user.country = (token.country as string) || null;
+                session.user.role = (token.role as 'USER' | 'ARTIST') || 'USER';
             }
             return session;
         },
     },
-    secret: process.env.NAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     debug: true,
 };
 
-const handler = NextAuth(authOptions); // Use authOptions
+const handler = NextAuth(authOptions);
 
+export { handler };
 export const { auth, signIn, signOut } = handler;
-export { handler as GET, handler as POST };

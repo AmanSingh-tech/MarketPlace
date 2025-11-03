@@ -2,6 +2,9 @@ import * as z from 'zod'
 
 
 export const registerSchema = z.object({
+    role: z.enum(['USER', 'ARTIST'], {
+        required_error: "Role is required"
+    }),
     name: z.string().min(2,{
         message: "First name is required"
     }),

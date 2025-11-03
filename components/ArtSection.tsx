@@ -16,60 +16,68 @@ export default function ArtSection({ posts, isOwnProfile, profileUser }: ArtSect
 
   return (
     <div className="mb-8">
-      <h3 className="text-lg font-semibold mb-4">Arts to be showcased:</h3>
+      <h3 className="text-2xl font-serif tracking-wide mb-6 text-center">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-white">
+          Products Showcase
+        </span>
+      </h3>
 
       {posts.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {posts.map((post) => (
             <div
               key={post.id}
-              className="relative aspect-square border-2 border-gray-200 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-              onClick={() => setSelectedImage(post.image)} // Open modal with selected image
+              className="group relative aspect-square bg-black/40 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:border-purple-500/30"
+              onClick={() => setSelectedImage(post.image)}
             >
               <Image
                 src={post.image}
-                alt={`Art ${post.id}`}
+                alt={`Product ${post.id}`}
                 layout="fill"
                 objectFit="cover"
-                className="hover:scale-105 transition-transform duration-300"
+                className="transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-20 hover:bg-opacity-0 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 italic text-center">No art to be displayed yet.</p>
+        <p className="text-white/70 italic text-center text-lg">No products to display yet.</p>
       )}
 
       {isOwnProfile && (
-        <Link
-          href={`${profileUser.username}/addpost`}
-          className="w-full mt-4 bg-black text-white font-semibold py-2 px-4 rounded hover:bg-gray-800 transition duration-300 text-center block"
-        >
-          <PlusSquare className="inline mx-2" />
-          Upload Your Art
-        </Link>
+        <div className="mt-8 text-center">
+          <Link
+            href={`${profileUser.username}/addpost`}
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all duration-200"
+          >
+            <PlusSquare className="mr-2" />
+            Add New Product
+          </Link>
+        </div>
       )}
 
       {/* Modal for Enlarged Image */}
       {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="relative w-11/12 max-w-3xl">
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-lg flex items-center justify-center z-50">
+          <div className="relative w-11/12 max-w-4xl">
             <button
-              className="absolute top-2 right-2 text-white text-xl bg-gray-800 p-2 rounded-full hover:bg-gray-700 transition"
-              onClick={() => setSelectedImage(null)} // Close modal
+              className="absolute -top-12 right-0 text-white/80 hover:text-white text-xl bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-200"
+              onClick={() => setSelectedImage(null)}
             >
               ✕
             </button>
-            <Image
-              src={selectedImage}
-              alt="Enlarged Art"
-              layout="responsive"
-              width={800}
-              height={800}
-              objectFit="contain"
-              className="rounded-lg"
-            />
+            <div className="rounded-lg overflow-hidden border border-white/10 shadow-2xl">
+              <Image
+                src={selectedImage}
+                alt="Enlarged Product"
+                layout="responsive"
+                width={800}
+                height={800}
+                objectFit="contain"
+                className="bg-black/40 backdrop-blur-sm"
+              />
+            </div>
           </div>
         </div>
       )}

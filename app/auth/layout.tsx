@@ -1,18 +1,14 @@
-export default function RootLayout({
+export default function AuthLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-
-            <body
-                className={``}
-            >
+        <div className=" flex items-center justify-center bg-black">
+            <div className=" space-y-8 p-6 bg-black rounded-xl shadow-md">
                 {children}
-            </body>
-
-        </html>
+            </div>
+        </div>
     );
 }
 

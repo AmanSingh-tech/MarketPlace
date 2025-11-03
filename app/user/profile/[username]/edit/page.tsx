@@ -19,6 +19,7 @@ export default function EditProfilePage() {
         phone: '',
         username: '',
         country: '',
+        role: 'USER' as 'USER' | 'ARTIST'
     })
 
     useEffect(() => {
@@ -31,7 +32,8 @@ export default function EditProfilePage() {
                     email: session.user.email || 'johndoe@example.com',
                     username: session.user.username || '',
                     phone: session.user.phone || '',
-                    country: session.user.country || ''
+                    country: session.user.country || '',
+                    role: session.user.role || 'USER'
                 }))
             }
         }
@@ -177,7 +179,7 @@ export default function EditProfilePage() {
                         <div className="flex justify-end">
                             <button
                                 type="submit"
-                                className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="bg-gradient-to-r from-indigo-800 from-25% to-purple-600 hover:from-pink-500 hover:to-orange-500 text-white px-4 py-2 rounded-md transition focus:outline-none"
                             >
                                 Save Changes
                             </button>

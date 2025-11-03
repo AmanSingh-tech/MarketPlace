@@ -1,11 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+}
+
+generator custom_generator {
+  provider = "prisma-client-js"
+  seed     = "ts-node prisma/seed.ts"
 }
 
 datasource db {
@@ -14,17 +13,20 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(cuid())
-  email         String   @unique
-  emailVerified Boolean? @default(false)
-  username      String   @unique
-  name          String
-  password      String
-  image         String?
-  posts         Post[]
-  createdAt     DateTime @default(now())
-  country       String   @default("India")
-  phone         String?
+  id               String    @id @default(cuid())
+  email            String    @unique
+  emailVerified    Boolean?  @default(false)
+  username         String    @unique
+  name             String
+  password         String
+  image            String?
+  createdAt        DateTime  @default(now())
+  country          String    @default("India")
+  phone            String?
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  role             String    @default("USER")
+  posts            Post[]
 
   @@unique([id, username])
 }
@@ -35,11 +37,12 @@ model Post {
   title          String
   description    String
   image          String
-  price          String
-  bidEndDate     String
   published      Boolean  @default(false)
-  author         User     @relation(fields: [authorId, authorUserName], references: [id, username])
   authorId       String
-  authorUserName String @default("John")
-  bidHistory     Json[]    @default([])
+  bidEndDate     String
+  price          String
+  authorUserName String   @default("John")
+  bidHistory     Json[]   @default([])
+  bidsClosed     Boolean  @default(false)
+  author         User     @relation(fields: [authorId, authorUserName], references: [id, username])
 }

@@ -2,8 +2,20 @@
 const nextConfig = {
     reactStrictMode: true,
     images: {
-      domains: ['upload.wikimedia.org'],
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'images.unsplash.com',
+        },
+        {
+          protocol: 'https',
+          hostname: 'upload.wikimedia.org',
+        }
+      ],
+      unoptimized: true
     },
+    output: 'standalone',
+    poweredByHeader: false,
 };
   
 

@@ -15,7 +15,7 @@ export default function UnauthorizedPage() {
           </p>
           <Link 
             href="/" 
-            className="inline-block bg-black text-white font-semibold py-2 px-6 rounded-md hover:bg-gray-800 transition duration-300"
+            className="inline-block bg-gradient-to-r from-indigo-800 from-25% to-purple-600 hover:from-pink-500 hover:to-orange-500 text-white font-semibold py-2 px-6 rounded-md transition"
           >
             Return to Home
           </Link>

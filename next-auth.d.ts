@@ -5,12 +5,22 @@ declare module "next-auth" {
     user: {
       /** The user's unique identifier (e.g., user ID) */
       id: string;
-      name?: string | null;
-      email?: string | null;
+      email: string;
       image?: string | null;
-      username?: string; 
+      username?: string;
       phone?: string | null;
       country?: string | null;
-    };
+      role?: 'USER' | 'ARTIST';
+    } & DefaultSession["user"];
+  }
+
+  interface User {
+    id: string;
+    email: string;
+    username?: string;
+    image?: string | null;
+    phone?: string | null;
+    country?: string | null;
+    role?: 'USER' | 'ARTIST';
   }
 }

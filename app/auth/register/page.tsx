@@ -2,10 +2,12 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { ChromeIcon as Google } from 'lucide-react'
+import { Chrome } from 'lucide-react'
 import { register } from '@/actions/register'
 import { FormValues } from '@/utils/formValue'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { AuthLayout, AuthFormDivider, AuthFormLink } from '@/components/ui/auth-layout'
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState<FormValues>({
@@ -14,7 +16,8 @@ const RegisterPage = () => {
     password: '',
     username: '',
     phone: '',
-    country: ''
+    country: '',
+    role: 'USER'
   })
 
   interface FormErrors extends Partial<FormValues> {
@@ -65,119 +68,174 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
-      <div className="w-full max-w-md border border-gray-200 rounded-lg shadow-sm p-6">
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold">Create an Account</h1>
-          <p className="text-gray-500 mt-2">Sign up to start creating and setting up bids for your art!</p>
-        </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={formData.name}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-1 focus:ring-black`}
-            />
-            {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
-          </div>
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">Username</label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              value={formData.username}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border ${errors.username ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-1 focus:ring-black`}
-            />
-            {errors.username && <p className="mt-1 text-sm text-red-600">{errors.username}</p>}
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-1 focus:ring-black`}
-            />
-            {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-1 focus:ring-black`}
-            />
-            {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
-          </div>
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-            <input
-              id="phone"
-              name="phone"
-              type="text"
-              value={formData.phone}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border ${errors.phone ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-1 focus:ring-black`}
-            />
-            {errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
-          </div>
-          <div>
-            <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">Country</label>
-            <input
-              id="country"
-              name="country"
-              type="text"
-              value={formData.country}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border ${errors.country ? 'border-red-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-1 focus:ring-black`}
-            />
-            {errors.password && <p className="mt-1 text-sm text-red-600">{errors.country}</p>}
-          </div>
-
-          {errors.general && <div className="text-red-500 text-sm mt-2">{errors.general}</div>}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md transition duration-300"
-          >
-            {isSubmitting ? 'Registering...' : 'Sign Up'}
-          </button>
-        </form>
-
-        <div className="mt-6 flex items-center justify-between">
-          <div className="border-t border-gray-200 flex-grow"></div>
-          <span className="px-2 text-gray-500 text-sm">or</span>
-          <div className="border-t border-gray-200 flex-grow"></div>
+    <AuthLayout
+      title="Create an Account"
+      subtitle="Sign up to start creating and setting up bids for your art!"
+    >
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <label htmlFor="name" className="block text-[13px] text-gray-500">
+            Name
+          </label>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            error={!!errors.name}
+            required
+            placeholder="Enter your name"
+          />
+          {errors.name && <p className="text-sm text-red-400">{errors.name}</p>}
         </div>
 
-        <button
-          onClick={handleGoogleSignUp}
-          className="mt-6 w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-black hover:text-white transition duration-300"
+        <div className="space-y-2">
+          <label htmlFor="username" className="block text-[13px] text-gray-500">
+            Username
+          </label>
+          <Input
+            id="username"
+            name="username"
+            type="text"
+            value={formData.username}
+            onChange={handleChange}
+            error={!!errors.username}
+            required
+            placeholder="Enter your username"
+          />
+          {errors.username && <p className="text-sm text-red-400">{errors.username}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-400">
+            Email address
+          </label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={!!errors.email}
+            required
+            placeholder="Enter your email address"
+          />
+          {errors.email && <p className="text-sm text-red-400">{errors.email}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="password" className="block text-sm font-medium text-gray-400">
+            Password
+          </label>
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            error={!!errors.password}
+            required
+            placeholder="Enter your password"
+          />
+          {errors.password && <p className="text-sm text-red-400">{errors.password}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-400">
+            Phone Number
+          </label>
+          <Input
+            id="phone"
+            name="phone"
+            type="tel"
+            value={formData.phone}
+            onChange={handleChange}
+            error={!!errors.phone}
+            required
+            placeholder="Enter your phone number"
+          />
+          {errors.phone && <p className="text-sm text-red-400">{errors.phone}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="country" className="block text-sm font-medium text-gray-400">
+            Country
+          </label>
+          <Input
+            id="country"
+            name="country"
+            type="text"
+            value={formData.country}
+            onChange={handleChange}
+            error={!!errors.country}
+            required
+            placeholder="Enter your country"
+          />
+          {errors.country && <p className="text-sm text-red-400">{errors.country}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-400">Account Type</label>
+          <div className="flex gap-4">
+            <label className="flex items-center text-gray-400">
+              <input
+                type="radio"
+                name="role"
+                value="USER"
+                checked={formData.role === 'USER'}
+                onChange={handleChange}
+                className="mr-2 text-indigo-600 focus:ring-indigo-500 bg-[#141414] border-zinc-800"
+              />
+              User
+            </label>
+            <label className="flex items-center text-gray-400">
+              <input
+                type="radio"
+                name="role"
+                value="ARTIST"
+                checked={formData.role === 'ARTIST'}
+                onChange={handleChange}
+                className="mr-2 text-indigo-600 focus:ring-indigo-500 bg-[#141414] border-zinc-800"
+              />
+              Artist
+            </label>
+          </div>
+          {errors.role && <p className="text-sm text-red-400">{errors.role}</p>}
+        </div>
+
+        {errors.general && (
+          <div className="p-3 rounded bg-red-900/20 border border-red-500/20 text-red-400 text-sm">
+            {errors.general}
+          </div>
+        )}
+
+        <Button
+          type="submit"
+          className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-sm font-medium rounded transition-colors"
+          disabled={isSubmitting}
         >
-          <Google className="mr-2 h-5 w-5" />
-          Sign up with Google
-        </button>
+          {isSubmitting ? 'Creating Account...' : 'Create Account'}
+        </Button>
+      </form>
 
+      <AuthFormDivider />
 
-        <p className="mt-6 text-sm text-gray-600 text-center">
-          Already have an account?{' '}
-          <Link href="login" className="text-black font-semibold hover:underline">
-            Log in
-          </Link>
-        </p>
-      </div>
-    </div>
+      <Button
+        variant="outline"
+        onClick={handleGoogleSignUp}
+        className="w-full bg-[#141414] border-zinc-800 text-white hover:bg-zinc-900 text-sm font-medium"
+      >
+        <Chrome className="mr-2 h-4 w-4" />
+        Sign up with Google
+      </Button>
+
+      <AuthFormLink
+        href="/auth/login"
+        text="Already have an account?"
+        label="Sign in"
+      />
+    </AuthLayout>
   )
 }
 

@@ -146,19 +146,24 @@ export default function AddPostPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+      <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md mx-auto bg-black/50 rounded-xl shadow-md overflow-hidden md:max-w-2xl border border-[#6D28D9]/30">
           <div className="md:flex">
             <div className="p-8 w-full">
-              <div className="uppercase tracking-wide text-sm text-gray-700 font-semibold mb-1">Add New Post</div>
+              <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold text-white">Add New Artwork</h2>
+                <p className="text-sm text-gray-400 mt-1">Share your art with the world</p>
+              </div>
               
               {errors.submit && (
-                <div className="text-red-500 mb-4">{errors.submit}</div>
+                <div className="text-red-500 mb-4 p-3 rounded bg-red-50">
+                  {errors.submit}
+                </div>
               )}
               
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="image" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="image" className="block text-sm font-medium text-white">
                     Upload Image
                   </label>
                   <input
@@ -167,24 +172,24 @@ export default function AddPostPage() {
                     id="image"
                     accept="image/*"
                     onChange={handleImageChange}
-                    className="mt-1 block w-full text-sm text-gray-500
+                    className="mt-1 block w-full text-sm text-gray-300
                       file:mr-4 file:py-2 file:px-4
                       file:rounded-md file:border-0
                       file:text-sm file:font-semibold
-                      file:bg-gray-50 file:text-gray-700
-                      hover:file:bg-gray-100"
+                      file:bg-gradient-to-r file:from-indigo-800 file:from-25% file:to-purple-600 
+                      hover:file:from-pink-500 hover:file:to-orange-500
+                      file:text-white cursor-pointer"
                   />
                   {errors.image && <p className="mt-2 text-sm text-red-600">{errors.image}</p>}
+                  {imagePreview && (
+                    <div className="mt-4">
+                      <Image src={imagePreview} alt="Preview" width={200} height={200} className="rounded-md" />
+                    </div>
+                  )}
                 </div>
 
-                {imagePreview && (
-                  <div className="mt-4">
-                    <Image src={imagePreview} alt="Preview" width={200} height={200} className="rounded-md" />
-                  </div>
-                )}
-
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="title" className="block text-sm font-medium text-white">
                     Title
                   </label>
                   <input
@@ -193,14 +198,15 @@ export default function AddPostPage() {
                     id="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                    className="mt-1 block w-full bg-black/50 border border-[#6D28D9]/30 rounded-md shadow-sm py-2 px-3 
+                             text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                   />
                   {errors.title && <p className="mt-2 text-sm text-red-600">{errors.title}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-                    Price
+                  <label htmlFor="price" className="block text-sm font-medium text-white">
+                    Starting Price
                   </label>
                   <input
                     type="text"
@@ -208,13 +214,14 @@ export default function AddPostPage() {
                     id="price"
                     value={formData.price}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                    className="mt-1 block w-full bg-black/50 border border-[#6D28D9]/30 rounded-md shadow-sm py-2 px-3 
+                             text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                   />
-                  {errors.price && <p className="mt-2 text-sm text-red-600">{errors.price}</p>}
+                  {errors.price && <p className="mt-2 text-sm text-red-400">{errors.price}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="description" className="block text-sm font-medium text-white">
                     Description
                   </label>
                   <textarea
@@ -223,14 +230,15 @@ export default function AddPostPage() {
                     rows={3}
                     value={formData.description}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                    className="mt-1 block w-full bg-black/50 border border-[#6D28D9]/30 rounded-md shadow-sm py-2 px-3 
+                             text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                   />
-                  {errors.description && <p className="mt-2 text-sm text-red-600">{errors.description}</p>}
+                  {errors.description && <p className="mt-2 text-sm text-red-400">{errors.description}</p>}
                 </div>
 
                 <div>
-                  <label htmlFor="bidEndDate" className="block text-sm font-medium text-gray-700">
-                    Closing Date
+                  <label htmlFor="bidEndDate" className="block text-sm font-medium text-white">
+                    Bid End Date
                   </label>
                   <input
                     type="date"
@@ -239,7 +247,8 @@ export default function AddPostPage() {
                     value={formData.bidEndDate}
                     onChange={handleInputChange}
                     min={new Date().toISOString().split('T')[0]}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm"
+                    className="mt-1 block w-full bg-black/50 border border-[#6D28D9]/30 rounded-md shadow-sm py-2 px-3 
+                             text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                   />
                   {errors.bidEndDate && <p className="mt-2 text-sm text-red-600">{errors.bidEndDate}</p>}
                 </div>
@@ -248,11 +257,12 @@ export default function AddPostPage() {
                   <button
                     type="submit"
                     disabled={uploading}
-                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 ${
-                      uploading ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
+                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md
+                             text-sm font-medium text-white bg-gradient-to-r from-indigo-800 from-25% to-purple-600 
+                             hover:from-pink-500 hover:to-orange-500 transition
+                             ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                   >
-                    {uploading ? 'Uploading...' : 'Add Post'}
+                    {uploading ? 'Uploading...' : 'Add Artwork'}
                   </button>
                 </div>
               </form>
@@ -260,7 +270,7 @@ export default function AddPostPage() {
           </div>
         </div>
       </div>
-      <Footer></Footer>
+      <Footer />
     </>
   )
 }

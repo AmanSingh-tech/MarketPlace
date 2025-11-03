@@ -4,7 +4,7 @@ import { loginSchema } from "@/Schema/loginSchema"
 import bcrypt from "bcryptjs";
 import { getUserByUsername } from "@/utils/user";
 import { LoginFormValues } from "@/utils/formValue";
-import { signIn } from 'next-auth/react'
+import { signIn } from '@/auth'
 
 export const login = async (formData: LoginFormValues) => {
     try {
