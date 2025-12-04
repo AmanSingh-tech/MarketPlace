@@ -26,7 +26,7 @@ export default function Header() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setIsProductPage(window.location.pathname === '/products');
+      setIsProductPage(window.location.pathname === '/product');
     }
   }, []);
   
@@ -48,7 +48,7 @@ export default function Header() {
   };
 
   const handleArt = () => {
-    router.push(`/products`);
+    router.push(`/product`);
   };
 
   return (

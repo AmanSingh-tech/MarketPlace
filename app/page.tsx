@@ -49,7 +49,7 @@ export default function MarketplacePage() {
 
   const handleBidding = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/products');
+    router.push('/product');
   };
 
   return (
@@ -121,7 +121,7 @@ export default function MarketplacePage() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <button
-                  onClick={() => router.push('/products')}
+                  onClick={() => router.push('/product')}
                   className="group relative px-8 py-4 bg-white/5 hover:bg-white/10 border border-purple-500/30 hover:border-purple-500/60 rounded-md transition-all duration-300"
                 >
                   <span className="relative z-10 text-lg text-white group-hover:text-purple-300 transition-colors">
@@ -130,7 +130,7 @@ export default function MarketplacePage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </button>
                 <button
-                  onClick={() => router.push('/products?filter=trending')}
+                  onClick={() => router.push('/product?filter=trending')}
                   className="group relative px-8 py-4 bg-white/5 hover:bg-white/10 border border-pink-500/30 hover:border-pink-500/60 rounded-md transition-all duration-300"
                 >
                   <span className="relative z-10 text-lg text-white group-hover:text-pink-300 transition-colors">

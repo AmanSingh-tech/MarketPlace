@@ -18,8 +18,8 @@ export default function Navigation({ isLoggedIn, handleLogin, handleRegister }: 
           
           <div className="flex items-center space-x-4">
             <Link 
-              href="/products" 
-              className="text-gray-300 hover:text-white transition"
+              href="/product" 
+              className="text-gray-300 hover:text-white transition duration-300"
             >
               Browse Art
             </Link>
@@ -35,13 +35,13 @@ export default function Navigation({ isLoggedIn, handleLogin, handleRegister }: 
               <div className="flex items-center space-x-4">
                 <button 
                   onClick={handleLogin}
-                  className="text-gray-300 hover:text-white transition"
+                  className="text-gray-300 hover:text-white transition duration-300"
                 >
-                  Sign In
+                  Login
                 </button>
                 <button 
                   onClick={handleRegister}
-                  className="px-4 py-2 bg-gradient-to-r from-indigo-800 to-purple-600 text-white rounded-md hover:from-pink-500 hover:to-orange-500 transition"
+                  className="px-4 py-2 bg-gradient-to-r from-indigo-800 to-purple-600 text-white rounded-md hover:from-pink-500 hover:to-orange-500 transition duration-300 shadow-lg hover:shadow-purple-500/25"
                 >
                   Register
                 </button>

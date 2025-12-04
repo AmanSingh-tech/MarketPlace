@@ -17,7 +17,7 @@ export default function ProductGrid({ ongoingProducts, previousProducts }: Produ
     const productsToDisplay = category === 'ongoing' ? ongoingProducts : previousProducts
 
     const handleIncrease = (id: number) => {
-        router.push(`/products/${id}`)
+        router.push(`/product/${id}`)
     }
 
     return (

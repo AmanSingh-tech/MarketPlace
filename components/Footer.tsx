@@ -42,7 +42,7 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/products" className="flex items-center hover:text-[#6D28D9] transition-colors duration-200">
+                <Link href="/product" className="flex items-center hover:text-[#6D28D9] transition-colors duration-200">
                   <ShoppingBag className="w-4 h-4 mr-2" />
                   Products
                 </Link>
@@ -52,7 +52,7 @@ export function Footer() {
 
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white">Connect</h3>
-            <Link href="https://github.com/AmanSingh-tech/MarketPlace" className="flex items-center hover:text-[#6D28D9] transition-colors duration-200">
+            <Link href="https://github.com/awhvish/MarketPlace.git" className="flex items-center hover:text-[#6D28D9] transition-colors duration-200">
               <Github className="w-4 h-4 mr-2" />
               GitHub
             </Link>

@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation';
 import { getProductFromId } from '@/utils/product';
 import Image from 'next/image'
 import Link from 'next/link'
-import { IncreaseBidButton } from '@/components/products/IncreaseBidButton';
-import BidHistory from '@/components/products/BidHistory';
+import { IncreaseBidButton } from '@/components/product/IncreaseBidButton';
+import BidHistory from '@/components/product/BidHistory';
 import Header from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Calendar } from 'lucide-react';

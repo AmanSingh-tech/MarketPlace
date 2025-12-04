@@ -3,12 +3,11 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/auth';
 import { getUserByUsername } from '@/utils/user';
 import { SignoutButton } from '@/components/SignoutButton';
-import Image from 'next/image';
 import Header from '@/components/Header';
-import { User } from 'lucide-react';
 import Link from 'next/link';
 import ArtSection from '@/components/ArtSection';
 import { Footer } from '@/components/Footer';
+import ProfileImage from './ProfileImage';
 
 interface UserProfileProps {
   params: {
@@ -45,18 +44,7 @@ export default async function UserProfilePage({ params }: UserProfileProps) {
 
               <div className="mb-8 flex items-center space-x-4 bg-black/40 backdrop-blur-sm p-6 rounded-lg border border-white/10">
                 <div className="relative w-24 h-24 rounded-full overflow-hidden ring-2 ring-purple-500/30">
-                  {user.image ? (
-                    <Image
-                      src={user.image}
-                      alt="Profile Picture"
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                  ) : (
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center">
-                      <User size={48} className="text-white/90" />
-                    </div>
-                  )}
+                  <ProfileImage image={user.image} alt="Profile Picture" />
                 </div>
                 <div>
                   <h2 className="text-2xl font-serif tracking-wide text-white">@{user.username}</h2>

@@ -15,6 +15,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, handleIncrease }: ProductCardProps) {
     const [showDetails, setShowDetails] = useState(false)
+    const [imageError, setImageError] = useState(false)
 
     return (
         <div
@@ -22,13 +23,20 @@ export default function ProductCard({ product, handleIncrease }: ProductCardProp
             onMouseEnter={() => setShowDetails(true)}
             onMouseLeave={() => setShowDetails(false)}
         >
-            <div className="relative h-48">
-                <Image
-                    src={product.image}
-                    alt={product.title}
-                    fill
-                    className="object-cover"
-                />
+            <div className="relative h-48 bg-gray-800">
+                {!imageError && product.image ? (
+                    <Image
+                        src={product.image}
+                        alt={product.title}
+                        fill
+                        className="object-cover"
+                        onError={() => setImageError(true)}
+                    />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-900/20 to-pink-900/20">
+                        <span className="text-gray-400 text-4xl">🎨</span>
+                    </div>
+                )}
                 <div className="absolute top-0 right-0 bg-white/10 backdrop-blur-sm text-white px-2 py-1 text-sm">
                     <VerifiedIcon />
                 </div>

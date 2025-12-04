@@ -13,6 +13,11 @@ interface ArtSectionProps {
 
 export default function ArtSection({ posts, isOwnProfile, profileUser }: ArtSectionProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+
+  const handleImageError = (postId: number) => {
+    setImageErrors(prev => new Set(prev).add(postId));
+  };
 
   return (
     <div className="mb-8">
@@ -30,13 +35,20 @@ export default function ArtSection({ posts, isOwnProfile, profileUser }: ArtSect
               className="group relative aspect-square bg-black/40 backdrop-blur-sm rounded-lg overflow-hidden border border-white/10 cursor-pointer transform transition-all duration-300 hover:scale-[1.02] hover:border-purple-500/30"
               onClick={() => setSelectedImage(post.image)}
             >
-              <Image
-                src={post.image}
-                alt={`Product ${post.id}`}
-                layout="fill"
-                objectFit="cover"
-                className="transition-transform duration-500 group-hover:scale-110"
-              />
+              {!imageErrors.has(post.id) && post.image ? (
+                <Image
+                  src={post.image}
+                  alt={`Product ${post.id}`}
+                  layout="fill"
+                  objectFit="cover"
+                  className="transition-transform duration-500 group-hover:scale-110"
+                  onError={() => handleImageError(post.id)}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-900/20 to-pink-900/20">
+                  <span className="text-gray-400 text-6xl">🎨</span>
+                </div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           ))}
