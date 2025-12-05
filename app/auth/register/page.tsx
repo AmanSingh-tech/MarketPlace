@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { Chrome, User, Mail, Lock, Phone, Globe, ArrowRight } from 'lucide-react'
+import { User, Mail, Lock, Phone, Globe, ArrowRight } from 'lucide-react'
 import { register } from '@/actions/register'
 import { FormValues } from '@/utils/formValue'
 import { Button } from '@/components/ui/button'
@@ -58,12 +58,6 @@ const RegisterPage = () => {
     }
 
     setIsSubmitting(false)
-  }
-
-  const handleGoogleSignUp = () => {
-    console.log('Google Sign-Up attempted')
-    alert("Not yet functional")
-    // Add your Google authentication logic here
   }
 
   return (
@@ -253,24 +247,6 @@ const RegisterPage = () => {
               )}
             </Button>
           </form>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-zinc-800"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-[#0A0A0A] text-gray-500">Or continue with</span>
-            </div>
-          </div>
-
-          <Button
-            variant="outline"
-            onClick={handleGoogleSignUp}
-            className="w-full h-12 bg-zinc-900/50 border-zinc-800 text-white hover:bg-zinc-800 text-sm font-medium rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
-          >
-            <Chrome className="h-5 w-5" />
-            Continue with Google
-          </Button>
 
           <p className="text-center text-sm text-gray-500">
             Already have an account?{' '}

@@ -14,8 +14,8 @@ export default function ProfileImage({ image, alt }: ProfileImageProps) {
 
   if (!image || imageError) {
     return (
-      <div className="w-24 h-24 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center">
-        <User size={48} className="text-white/90" />
+      <div className="absolute inset-0 w-full h-full rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
+        <User className="w-16 h-16 md:w-20 md:h-20 text-white" />
       </div>
     );
   }
@@ -24,8 +24,8 @@ export default function ProfileImage({ image, alt }: ProfileImageProps) {
     <Image
       src={image}
       alt={alt}
-      layout="fill"
-      objectFit="cover"
+      fill
+      className="object-cover rounded-full"
       onError={() => setImageError(true)}
     />
   );

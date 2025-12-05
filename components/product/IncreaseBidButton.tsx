@@ -10,6 +10,11 @@ import { useState, useEffect } from "react";
 interface IncreaseBidButtonProps {
     price: string;
     id: number;
+    highestBid?: {
+        username: string;
+        amount: number;
+        timestamp: string;
+    } | null;
 }
 
 export const IncreaseBidButton = ({ price, id }: IncreaseBidButtonProps) => {
@@ -61,34 +66,62 @@ export const IncreaseBidButton = ({ price, id }: IncreaseBidButtonProps) => {
     }
 
     return (
-        <div className="bg-muted p-4 rounded-lg bg-gray-100">
-            <div className="flex justify-between items-center">
-                <span className="text-lg font-semibold text-black">Current Bid</span>
-                <span className="text-2xl font-bold text-black">${price}</span>
-            </div>
-            <form onSubmit={submitBid} className="mt-4">
-                <input type="hidden" name="artworkId" value={id} />
-                <div className="flex items-center">
-                    <div className="relative flex-grow">
-                        <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black" />
-                        <input
-                            type="number"
-                            name="bidAmount"
-                            placeholder="Enter your bid"
-                            className="w-full pl-10 pr-4 py-2 border border-input bg-background rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary text-black placeholder-black/60"
-                            required
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="bg-primary text-white py-2 px-4 rounded-r-md hover:bg-primary/90 transition-colors flex items-center bg-black"
-                    >
-                        <ChevronUp className="mr-2 h-4 w-4" />
-                        Increase Bid
-                    </button>
+        <div className="glass rounded-2xl p-6 border border-white/10 space-y-6">
+            {/* Current Bid Display */}
+            <div className="flex justify-between items-center pb-4 border-b border-white/10">
+                <div>
+                    <p className="text-sm text-gray-400 uppercase tracking-wider mb-1">Current Bid</p>
+                    <span className="text-4xl font-bold gradient-text">${price}</span>
                 </div>
-                {error && <div className="text-red-600 bg-red-100/10 p-2 rounded mt-2">{error}</div>}
-                {success && <div className="bg-black text-white p-2 rounded mt-2 border border-gray-800">{success}</div>}
+            </div>
+            
+            {/* Bid Form */}
+            <form onSubmit={submitBid} className="space-y-4">
+                <input type="hidden" name="artworkId" value={id} />
+                
+                <div className="space-y-2">
+                    <label className="text-sm text-gray-400 font-medium">Place Your Bid</label>
+                    <div className="flex gap-3">
+                        <div className="relative flex-grow">
+                            <DollarSign className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                            <input
+                                type="number"
+                                name="bidAmount"
+                                placeholder="Enter your bid amount"
+                                className="w-full h-14 pl-12 pr-4 glass border border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 text-white placeholder:text-gray-500 transition-all duration-300"
+                                required
+                                min={Number(price) + 1}
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="px-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-xl transition-all duration-300 hover-scale shadow-lg hover:shadow-purple-500/50 flex items-center gap-2 whitespace-nowrap"
+                        >
+                            <ChevronUp className="h-5 w-5" />
+                            Increase Bid
+                        </button>
+                    </div>
+                </div>
+                
+                {/* Error Message */}
+                {error && (
+                    <div className="flex items-center gap-2 p-4 bg-red-900/30 border border-red-500/30 rounded-xl text-red-300 text-sm animate-fade-in-up">
+                        <span className="text-lg">⚠️</span>
+                        <span>{error}</span>
+                    </div>
+                )}
+                
+                {/* Success Message */}
+                {success && (
+                    <div className="flex items-center gap-2 p-4 bg-green-900/30 border border-green-500/30 rounded-xl text-green-300 text-sm animate-fade-in-up">
+                        <span className="text-lg">✅</span>
+                        <span>{success}</span>
+                    </div>
+                )}
+                
+                <p className="text-xs text-gray-500 text-center">
+                    💡 Your bid must be higher than the current bid
+                </p>
             </form>
         </div>)
 }
